@@ -1,0 +1,24 @@
+diff -u -r PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/ActivityRandomize.java PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/ActivityRandomize.java
+--- PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/ActivityRandomize.java	2011-04-20 14:27:55.000000000 +0200
++++ PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/ActivityRandomize.java	2011-04-20 14:29:27.000000000 +0200
+@@ -23,7 +23,7 @@
+ 		for (int i = 0; nodes.hasNext(); i++)
+ 			nodesList.set(i, nodes.next());
+ 		
+-		final Random random = new Random();
++		final Random random = new Random(12345);
+ 		for (int i = 0; i < nodesList.size(); i++)
+ 		{
+ 			final int node = nodesList.get(i);
+diff -u -r PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/ST3Filter.java PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/ST3Filter.java
+--- PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/ST3Filter.java	2011-04-20 14:27:55.000000000 +0200
++++ PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/ST3Filter.java	2011-04-20 14:29:05.000000000 +0200
+@@ -34,7 +34,7 @@
+ 	final int numOfRandomTrials;
+ 	final double pvalCutoff;
+ 	final Map<Graph<Activity,String>,Double> pvals = new HashMap<Graph<Activity,String>,Double>();
+-	final Random random = new Random();
++	final Random random = new Random(54321);
+ 
+ 	public ST3Filter(final Graph<Activity,String> network, final ExpressionMatrix matrix, final AbstractActivityScore score)
+ 	{

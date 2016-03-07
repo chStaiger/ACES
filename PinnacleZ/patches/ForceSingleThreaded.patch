@@ -1,0 +1,12 @@
+diff -u -r PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/Main.java PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/Main.java
+--- PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/Main.java	2011-04-20 14:27:55.000000000 +0200
++++ PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/Main.java	2011-04-20 14:32:39.000000000 +0200
+@@ -41,7 +41,7 @@
+ 	static int maxRadius = 2;
+ 	static int maxNodeDegree = 300;
+ 	static double minImprovement = 0.05;
+-	static int numOfThreads = Runtime.getRuntime().availableProcessors();
++	static int numOfThreads = 1;
+ 	static double ST1PValCutoff = 0.05;
+ 	static double ST2PValCutoff = 0.05;
+ 	static double ST3PValCutoff = 0.00005;

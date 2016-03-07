@@ -1,0 +1,85 @@
+diff -r -u PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/io/ExpressionMatrixReader.java PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/io/ExpressionMatrixReader.java
+--- PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/io/ExpressionMatrixReader.java	2011-04-19 09:40:04.000000000 +0200
++++ PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/io/ExpressionMatrixReader.java	2011-06-15 16:54:05.573987880 +0200
+@@ -29,7 +29,7 @@
+ 	 * @throws ParsingException if opening or reading the file failed.
+ 	 */
+ 	public static ExpressionMatrix read(final Map<String,Integer> classMap,
+-					final String expressionMatrixFileName)
++					    final String expressionMatrixFileName, final boolean zNormalizeInput)
+ 					throws ParsingException
+ 	{
+ 		FileReader fileReader = null;
+@@ -42,7 +42,7 @@
+ 			throw new ParsingException("Expression matrix", e.getMessage());
+ 		}
+ 
+-		return read(classMap, new BufferedReader(fileReader));
++		return read(classMap, new BufferedReader(fileReader), zNormalizeInput);
+ 	}
+ 
+ 	/**
+@@ -54,7 +54,7 @@
+ 	 * @throws ParsingException if opening or reading the file failed.
+ 	 */
+ 	public static ExpressionMatrix read(Map<String,Integer> classMap,
+-					BufferedReader expressionDataReader)
++					    BufferedReader expressionDataReader, final boolean zNormalizeInput)
+ 					throws ParsingException
+ 	{
+ 		List<String> experiments = new ArrayList<String>();
+@@ -189,7 +189,10 @@
+ 			result.classes[x] = classes.get(x).intValue();
+ 		}
+ 
+-		transform(result);
++
++		if (zNormalizeInput)
++			transform(result);
++
+ 		return result;
+ 	}
+ 
+diff -r -u PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/Main.java PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/Main.java
+--- PinnacleZ-svn-checkout-2011-04-19.orig/src/pinnaclez/Main.java	2011-04-19 09:40:04.000000000 +0200
++++ PinnacleZ-svn-checkout-2011-04-19/src/pinnaclez/Main.java	2011-06-15 16:52:36.742302266 +0200
+@@ -50,7 +50,8 @@
+ 	static String classFilePath, matrixFilePath, networkFilePath;
+ 	static PrintStream output = System.out;
+ 	static boolean verbose = false;
+-	
++	static boolean zNormalizeInput = true;
++
+ 	public static void main(String[] args)
+ 	{
+ 		parseCommandLine(args);
+@@ -80,7 +81,7 @@
+ 		ExpressionMatrix matrix = null;
+ 		try
+ 		{
+-			matrix = ExpressionMatrixReader.read(classMap, matrixFilePath);
++		    matrix = ExpressionMatrixReader.read(classMap, matrixFilePath, zNormalizeInput);
+ 		}
+ 		catch (ParsingException e)
+ 		{
+@@ -429,6 +430,9 @@
+ 		if (line.hasOption("v"))
+ 			verbose = true;
+ 		
++		if (line.hasOption("z"))
++			zNormalizeInput = false;
++		
+ 		String[] files = line.getArgs();
+ 		if (files.length < 2)
+ 			printHelpAndExit("Class, matrix, or network files were not specified", options);
+@@ -523,6 +527,10 @@
+ 					.withLongOpt("verbose")
+ 					.withDescription("write detailed progress to stderr; default: " + verbose)
+ 					.create("v"));
++		options.addOption(OptionBuilder
++					.withLongOpt("znormalize")
++					.withDescription("perform z-score normalization of input; default: " + zNormalizeInput)
++					.create("z"));
+ 		return options;
+ 	}
+ 

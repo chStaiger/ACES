@@ -37,7 +37,7 @@ is one instance that will be executed on one node.
 The code can be adopted to other HPC facilities.
 
 Data:
-The expression and secondary data lie in the folder experiments/data.
+The expression and secondary data lie in the folder experiments/data (provided upon request).
 
 Dependencies:
 ===============
